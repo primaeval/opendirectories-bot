@@ -1,3 +1,5 @@
+import json
+import urllib
 import sys
 from crawler import Crawler
 from crawl_report import ReportBuilder
@@ -8,6 +10,17 @@ if __name__ == "__main__":
     if len(sys.argv) > 1:
 
         command = sys.argv[1]
+
+        if command == "dump":
+            if len(sys.argv) > 2:
+                url = sys.argv[2]
+
+                c = Crawler(url, True)
+                c.crawl()
+                filename = urllib.parse.quote_plus(url)
+                with open(filename+'.json','w') as f:
+                    f.write(json.dumps(c.files,indent=2))
+
 
         if command == "crawl":
             if len(sys.argv) > 2:
